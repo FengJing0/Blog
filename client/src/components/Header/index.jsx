@@ -1,22 +1,31 @@
 import React from 'react'
 import {Menu} from "antd"
 import {Link} from "react-router-dom"
-import {HeaderWrapper, Logo, LoginBtn,HeaderComponent} from './style'
+import {HeaderWrapper, Logo, LoginBtn, HeaderComponent} from './style'
 import {withRouter} from "react-router-dom"
+import Icon from "../Icon"
 
 
 const Item = Menu.Item
 
-const Header = props => {
+function getNavList() {
   const navList = [
-    {to: '/', title: 'Home'},
-    {to: '/Archives', title: 'Archives'},
-    {to: 'Collections', title: 'Collections'},
-    {to: '/Categories', title: 'Categories'},
-    {to: '/About', title: 'About'}
+    {to: '/', title: 'Home',icon:'homepage_fill'},
+    {to: '/Blog', title: 'Blog',icon:'activity_fill'},
+    {to: '/Archives', title: 'Archives',icon:'document_fill'},
+    {to: 'Collections', title: 'Collections',icon:'collection_fill'},
+    {to: '/Demo', title: 'Demo',icon:'createtask_fill'},
+    {to: '/About', title: 'About',icon:'like_fill'}
   ]
+  return navList.map(item => (
+      <Item key={item.to}><Link to={item.to}><Icon name={item.icon}/>{item.title}</Link></Item>
+  ))
+}
+
+const Header = props => {
+
   return (
-      <HeaderComponent >
+      <HeaderComponent>
         <HeaderWrapper className='b-clearfix'>
           <Logo className='b-fl'>
             Logo
@@ -25,11 +34,7 @@ const Header = props => {
             <Link to='/login'>login</Link>
           </LoginBtn>
           <Menu mode='horizontal' defaultSelectedKeys={[props.location.pathname]} className='b-fr'>
-            {
-              navList.map(item => (
-                  <Item key={item.to}><Link to={item.to}>{item.title}</Link></Item>
-              ))
-            }
+            {getNavList()}
           </Menu>
         </HeaderWrapper>
       </HeaderComponent>

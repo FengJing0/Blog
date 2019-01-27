@@ -1,10 +1,10 @@
 import React,{PureComponent} from 'react'
 
 
-class Categories extends PureComponent{
+class Demo extends PureComponent{
   render() {
-    return <div>Categories</div>
+    return <div>Demo</div>
   }
 }
 
-export default Categories
+export default Demo

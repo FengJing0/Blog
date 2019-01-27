@@ -6,9 +6,9 @@ import {PagesWrapper,Title} from "../../style/common_style"
 import Card from "../Card"
 
 const CardList = props => {
-  const {title,list} = props
+  const {title,list,id} = props
   return (
-      <PagesWrapper className='b-mb' padding='0'>
+      <PagesWrapper id={id} className='b-mb' padding='0'>
         {title&&<Title>{title}</Title>}
         {
           list.map(item=>(<Link key={item.id} to={`/Detail/${title}/${item.id}`}>

@@ -3,7 +3,7 @@ import marked from 'marked'
 
 function mark (data) {
   if(!data){
-    return '加载中...'
+    return
   }
   const renderer = new marked.Renderer()
   renderer.blockquote = (quote) => {
@@ -16,10 +16,8 @@ function mark (data) {
 
 const Markdown = props => {
   const {md} = props
-  const content = mark(md)
-  console.log(content)
   return (
-      <div dangerouslySetInnerHTML={{__html:content||'加载中...'}}/>
+      <div className="markdown-body" dangerouslySetInnerHTML={{__html:mark(md)||'加载中...'}}/>
   )
 }
 

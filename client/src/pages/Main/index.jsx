@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react'
 import {Switch, Route} from "react-router-dom"
+import { BackTop } from 'antd';
 
 import NotFound from '../../components/NotFound'
 import Home from "../Home"
@@ -20,6 +21,7 @@ class Main extends PureComponent {
         <React.Fragment>
           <Header/>
           <PagesWrapper>
+            <BackTop/>
             <Switch>
               <Route exact path='/' component={Home}/>
               <Route exact path='/Blog' component={Blog}/>

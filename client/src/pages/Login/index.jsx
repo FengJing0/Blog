@@ -1,9 +1,21 @@
 import React,{PureComponent} from 'react'
 
+import {FullPage} from "../../style/common_style"
+
+import config from "../../config/particlesjs-config"
+
+if(!window.particlesJS){
+  require('particles.js')
+}
 
 class Login extends PureComponent{
+  componentDidMount() {
+    window.particlesJS('login',config)
+  }
+
+
   render() {
-    return <div>Login</div>
+    return <FullPage id='login'>Login</FullPage>
   }
 }
 

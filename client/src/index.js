@@ -6,12 +6,12 @@ import {BrowserRouter,Route,Switch} from "react-router-dom"
 import {ThemeProvider} from "styled-components"
 import {Provider} from "react-redux"
 
-
 import store from './redux/store'
 import Main from "./pages/Main"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 
+import 'github-markdown-css'
 import {Iconfont} from "./assets/iconfont/iconfont"
 import './style/common.less'
 import './style/antd.less'

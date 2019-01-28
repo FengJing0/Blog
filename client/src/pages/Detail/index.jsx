@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import {PagesWrapper} from "../../style/common_style"
-import {Col, Row} from "antd"
+import {Col, Divider, Row} from "antd"
 
 import {Title, Some} from "./style"
 
@@ -21,23 +21,14 @@ class Detail extends PureComponent {
     const {id, type} = this.props.match.params
     if (type === 'Blog') {
       this.setState({
-        content: '\'## MaHua是什么?\\n\' +\n' +
-            '      \'一个在线编辑markdown文档的编辑器\\n\' +\n' +
-            '      \'\\n\' +\n' +
-            '      \'向Mac下优秀的markdown编辑器mou致敬\\n\' +\n' +
-            '      \'\\n\' +\n' +
-            '      \'## MaHua有哪些功能？\\n\' +\n' +
-            '      \'\\n\' +\n' +
-            '      \'* 方便的`导入导出`功能\\n\' +\n' +
-            '      \'    *  直接把一个markdown的文本文件拖放到当前这个页面就可以了\\n\' +\n' +
-            '      \'    *  导出为一个html格式的文件，样式一点也不会丢失\\n\' +\n' +
-            '      \'* 编辑和预览`同步滚动`，所见即所得（右上角设置）\\n\' +\n' +
-            '      \'* `VIM快捷键`支持，方便vim党们快速的操作 （右上角设置）\\n\' +\n' +
-            '      \'* 强大的`自定义CSS`功能，方便定制自己的展示\\n\' +\n' +
-            '      \'* 有数量也有质量的`主题`,编辑器和预览区域\\n\' +\n' +
-            '      \'* 完美兼容`Github`的markdown语法\\n\' +\n' +
-            '      \'* 预览区域`代码高亮`\\n\' +\n' +
-            '      \'* 所有选项自动记忆\''
+        content: '# 标题\n' +
+            '\n' +
+            '- 列表\n' +
+            '- 列表\n' +
+            '\n' +
+            '```\n' +
+            'alert(\'Hello\')\n' +
+            '```\n'
       })
     } else if (type === 'Archives') {
       this.setState({
@@ -61,8 +52,8 @@ class Detail extends PureComponent {
 
   }
 
-  getAuthor = () => {
-    if(this.state.author){
+  getAuthor = author => {
+    if(author){
       return (<React.Fragment>
         &nbsp;&nbsp;&nbsp;&nbsp;
           <Icon name='label_fill' size='18px'/>
@@ -71,24 +62,52 @@ class Detail extends PureComponent {
     }
   }
 
+  getDate = date => {
+    if(date){
+      return (<React.Fragment>
+        <Icon name='activity_fill' size='18px'/>
+        <span>{date}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </React.Fragment>)
+    }
+  }
+
+  getTags = tags => {
+    if(tags){
+      return (<React.Fragment>
+        <Icon name='label_fill' size='18px'/>
+        <span>{tags.join(',')}</span>
+      </React.Fragment>)
+    }
+  }
+
+  getSome = (date,tags,author) => {
+    const Author = this.getAuthor(author)
+    const Date = this.getDate(date)
+    const Tags = this.getTags(tags)
+
+    return (<Some>
+      {Date}
+      {Tags}
+      {Author}
+    </Some>)
+  }
+
 
   render() {
     const type = this.props.match.params.type
-    const {content,title,date,tags} = this.state
+    const {content,title,date,tags,author} = this.state
     return (<Row>
       <Col>
-        <PagesWrapper>
+        <PagesWrapper bg='#F8F8FD'>
           <Title>{title}</Title>
-          <Some>
-            <Icon name='activity_fill' size='18px'/>
-            <span>{date}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Icon name='label_fill' size='18px'/>
-            <span>{tags.join(',')}</span>
-            {this.getAuthor()}
-          </Some>
-          {
-            type === 'Blog' ? <Markdown md={content}/> : <div dangerouslySetInnerHTML={{__html: content || '加载中...'}}/>
-          }
+          {this.getSome(date,tags,author)}
+          <Divider/>
+          <PagesWrapper>
+            {
+              type === 'Blog' ? <Markdown md={content}/> : <div dangerouslySetInnerHTML={{__html: content || '加载中...'}}/>
+            }
+          </PagesWrapper>
         </PagesWrapper>
       </Col>
     </Row>)

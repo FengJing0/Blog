@@ -1,90 +1,47 @@
 import React, {PureComponent} from 'react'
 
-import config from "../../config/particlesjs-config"
+import Core from '../../components/Core'
+
 import {registerApi} from "../../api/user"
 
-import {FromWrapper, FullPage} from "../../style/common_style"
-import {Button, Form, Icon, Input, message} from "antd"
-import {CenterTitle} from "../../style/common_style"
+import {Icon, Input, message} from "antd"
 
-const Item = Form.Item
 
-if (!window.particlesJS) {
-  require('particles.js')
-}
+const Icons = name => <Icon type={name} style={{color: 'rgba(0,0,0,.25)'}}/>
+
+const username = () => <Input prefix={Icons('user')} placeholder="用户名"/>
+
+const password = () => <Input prefix={Icons('lock')} type="password" placeholder="密码"/>
+
+const rePassword = () => <Input prefix={Icons('lock')} type="password" placeholder="请确认密码"/>
+
+const config = [
+  {name: 'username', rules: [{required: true, message: '请输入用户名'}], components: username},
+  {name: 'password', rules: [{required: true, message: '请输入密码'}], components: password},
+  {name: 'rePassword', rules: [{required: true, message: '请确认密码'}], components: rePassword}
+]
+
 
 class Register extends PureComponent {
-  componentDidMount() {
-    window.particlesJS('login', config)
-  }
+  handleSubmit = value => {
+    const {username, password, rePassword} = value
+    if (password !== rePassword) {
+      message.error('两次密码不一致')
+      return
+    }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const {username, password, rePassword} = values
-        if (password !== rePassword) {
-          message.error('两次密码不一致')
-          return
-        }
-
-        registerApi({username, password}).then(res => {
-          if (res && res.data.errorCode === 0) {
-            this.props.history.push('/login')
-          }
-        })
+    registerApi({username, password}).then(res => {
+      if (res && res.data.errorCode === 0) {
+        this.props.history.push('/login')
       }
     })
+
   }
 
   render() {
-    const {getFieldDecorator} = this.props.form
-    return (
-        <FullPage id='login'>
-          <FromWrapper>
-            <CenterTitle>用户注册</CenterTitle>
-            <Form onSubmit={this.handleSubmit}>
-              <Item>
-                {getFieldDecorator('username', {
-                  rules: [{required: true, message: 'Please input your username!'}],
-                })(
-                    <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                           placeholder="用户名"/>
-                )}
-              </Item>
-              <Item>
-                {getFieldDecorator('password', {
-                  rules: [{required: true, message: 'Please input your Password!'}],
-                })(
-                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                           type="password"
-                           placeholder="密码"/>
-                )}
-              </Item>
-              <Item>
-                {getFieldDecorator('rePassword', {
-                  rules: [{required: true, message: 'Please input your Password!'}],
-                })(
-                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                           type="password"
-                           placeholder="请确认密码"/>
-                )}
-              </Item>
-              <Item>
-                <Button type="primary" htmlType="submit" block>
-                  Login
-                </Button>
-              </Item>
-            </Form>
-          </FromWrapper>
-        </FullPage>
-    )
+    return <Core type='register' config={config} handleSubmit={this.handleSubmit}/>
   }
 }
 
-//
-// const mapDispatchToProps = dispatch => {
-//
-// }
 
-export default Form.create({name: 'normal_register'})(Register)
+export default Register

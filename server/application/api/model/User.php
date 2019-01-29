@@ -3,7 +3,7 @@
 namespace app\api\model;
 
 use think\Request;
-
+use app\lib\enum\ScopeEnum;
 class User extends BaseModel
 {
     protected $hidden = ['password','ip','create_time','delete_time','update_time'];
@@ -16,9 +16,10 @@ class User extends BaseModel
             $nickname = $user['username'];
         }
         $this->username = $user['username'];
-        $this->password = $user['password'];
+        $this->password = md5($user['password']);
         $this->nickname = $nickname;
         $this->ip = Request::instance()->ip();
+        $this->scope = ScopeEnum::User;
         $result = $this->save();
 
         if($result){

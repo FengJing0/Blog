@@ -1,9 +1,10 @@
 import * as actionsType from './actions-type'
 
 const initUserInfo = {
-  id:0,
-  username:'',
-  nickname:''
+  id:11,
+  username:'11',
+  nickname:'11',
+  scope:32
 }
 
 export default  (state=initUserInfo,action) => {

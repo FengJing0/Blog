@@ -12,6 +12,9 @@ export const Title = styled('p')`
   background:#fff;
   padding:15px 0 15px 15px;
   margin:0;
+  a{
+    font-size:16px;
+  }
 `
 
 export const CenterTitle = styled('p')`

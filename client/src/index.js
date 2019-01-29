@@ -15,6 +15,7 @@ import 'github-markdown-css'
 import {Iconfont} from "./assets/iconfont/iconfont"
 import './style/common.less'
 import './style/antd.less'
+import 'simplemde/dist/simplemde.min.css'
 
 const theme = {
   primary:'#1890ff',

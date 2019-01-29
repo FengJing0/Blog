@@ -1,32 +1,40 @@
-import React,{PureComponent} from 'react'
-
-import {FromWrapper, FullPage} from "../../style/common_style"
+import React, {PureComponent} from 'react'
 
 import config from "../../config/particlesjs-config"
-import {Button, Form, Icon, Input,message} from "antd"
+import {registerApi} from "../../api/user"
+
+import {FromWrapper, FullPage} from "../../style/common_style"
+import {Button, Form, Icon, Input, message} from "antd"
+import {CenterTitle} from "../../style/common_style"
 
 const Item = Form.Item
 
-if(!window.particlesJS){
+if (!window.particlesJS) {
   require('particles.js')
 }
 
-class Register extends PureComponent{
+class Register extends PureComponent {
   componentDidMount() {
-    window.particlesJS('login',config)
+    window.particlesJS('login', config)
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        if(values.password!==values.rePassword){
-          message.error('两次密码不一致');
+        const {username, password, rePassword} = values
+        if (password !== rePassword) {
+          message.error('两次密码不一致')
           return
         }
-        console.log('Received values of form: ', values);
+
+        registerApi({username, password}).then(res => {
+          if (res && res.data.errorCode === 0) {
+            this.props.history.push('/login')
+          }
+        })
       }
-    });
+    })
   }
 
   render() {
@@ -34,9 +42,10 @@ class Register extends PureComponent{
     return (
         <FullPage id='login'>
           <FromWrapper>
+            <CenterTitle>用户注册</CenterTitle>
             <Form onSubmit={this.handleSubmit}>
               <Item>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('username', {
                   rules: [{required: true, message: 'Please input your username!'}],
                 })(
                     <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
@@ -72,5 +81,10 @@ class Register extends PureComponent{
     )
   }
 }
+
+//
+// const mapDispatchToProps = dispatch => {
+//
+// }
 
 export default Form.create({name: 'normal_register'})(Register)

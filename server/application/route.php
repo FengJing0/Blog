@@ -12,6 +12,7 @@
 use think\Route;
 
 Route::post('api/:version/register','api/:version.User/register');
+Route::post('api/:version/login','api/:version.User/login');
 
 
 //Route::get('api/:version/product/:id','api/:version.Product/getOne',[],['id'=>'\d+']);

@@ -1,11 +1,16 @@
 import {combineReducers} from "redux"
+import {GET_USER_INFO} from "./actions-type"
 
 
-const initState = 'test'
+const initUserInfo = {
+  id:'',
+  username:'',
+  nickname:''
+}
 
-function test (state=initState,action){
+function userInfo (state=initUserInfo,action){
   switch (action.type) {
-    case 'click':
+    case GET_USER_INFO:
       return action.data
     default:
       return state
@@ -13,5 +18,5 @@ function test (state=initState,action){
 }
 
 export default combineReducers({
-  test
+  userInfo
 })

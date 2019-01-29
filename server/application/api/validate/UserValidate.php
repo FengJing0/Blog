@@ -8,4 +8,6 @@ class UserValidate extends BaseValidate
         'username' => 'require|isNotEmpty',
         'password' => 'require|isNotEmpty'
     ];
+
+
 }

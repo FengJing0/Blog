@@ -14,6 +14,15 @@ export const Title = styled('p')`
   margin:0;
 `
 
+export const CenterTitle = styled('p')`
+  font-size:28px;
+  font-weight:bolder;
+  color:#000;
+  text-align:center;
+  padding:15px 0;
+  margin:0;
+`
+
 export const FullPage = styled('div')`
   background:#333;
   position: absolute;

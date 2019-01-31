@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import {Col, Row,Anchor} from "antd"
 import day from 'dayjs'
 import CardList from '../../components/CardList'
+import {blog} from "../../api"
 
 const { Link } = Anchor;
 
@@ -15,6 +16,15 @@ class Home extends PureComponent {
       {id:5,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')}
     ]
   }
+
+  componentDidMount() {
+    blog.getBlogApi().then(res=>{
+      if(!res.errorCode){
+        this.setState({BlogList:res.data})
+      }
+    })
+  }
+
 
   getMain = () => {
     return (<Col span={18} id='body'>

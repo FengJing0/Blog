@@ -15,6 +15,14 @@ Route::post('api/:version/register','api/:version.User/register');
 Route::post('api/:version/login','api/:version.User/login');
 
 
+Route::get('api/:version/category/all','api/:version.Category/getAll');
+Route::post('api/:version/category/add','api/:version.Category/addCategory');
+
+Route::get('api/:version/blog/all','api/:version.Blog/getAll');
+Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
+
+
+
 //Route::get('api/:version/product/:id','api/:version.Product/getOne',[],['id'=>'\d+']);
 //Route::get('api/:version/product/recent','api/:version.Product/getRecent');
 //Route::get('api/:version/product/by_category','api/:version.Product/getAllInCategory');

@@ -3,12 +3,12 @@ import {GET_USER_INFO_SYNC} from "./actions-type"
 
 import {getUserInfo as getUserInfoAction} from "./actions"
 
-import {loginApi} from "../../../api/user"
+import {user} from "../../../api"
 
 function* getUserInfo(values) {
   try {
-    const res = yield loginApi(values.data)
-    if (res) {
+    const res = yield user.loginApi(values.data)
+    if (!res.errorCode) {
       yield put(getUserInfoAction(res.data))
     }
   } catch (e) {
@@ -16,4 +16,4 @@ function* getUserInfo(values) {
   }
 }
 
-export const userSaga = takeEvery(GET_USER_INFO_SYNC, getUserInfo)
+export const userSaga = () => takeEvery(GET_USER_INFO_SYNC, getUserInfo)

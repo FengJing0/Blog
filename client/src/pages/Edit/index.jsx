@@ -2,48 +2,41 @@ import React, {PureComponent} from 'react'
 import {connect} from "react-redux"
 import {Redirect} from "react-router-dom"
 
-import SimpleMDE from "../../components/SimpleMDE"
-import Markdown from "../../components/Markdown"
-
-import {PagesWrapper,CenterTitle} from "../../style/common_style"
-import {EditWrapper,FromWrapper} from "./style"
-
-import {Button, Col, Row} from "antd"
+import EditComponent from "../../components/Edit"
+import {blog} from "../../api"
 
 
 class Edit extends PureComponent {
   state = {
-    type:[],
-    content:''
+    typeList:[{name: 'it', id: 1}]
   }
 
-  getFrom = () => {
-    return (<FromWrapper>
-      <Button htmlType='button' type='primary' onClick={this.onSubmit}>提交</Button>
-    </FromWrapper>)
+  componentDidMount() {
+    blog.getCategoryApi().then(res=>{
+      if(!res.errorCode){
+        this.setState({typeList:res.data})
+      }
+    })
   }
 
-  onChange = value =>{
-    this.setState({content:value})
+  onSubmit = ({content,types}) => {
+    console.log(content,types)
   }
 
-  onSubmit = ()=>{
-    console.log(this.state.content)
+  onSubmitNewType = type => {
+    blog.addCategoryApi({name:type}).then(res=>{
+      if(!res.errorCode){
+        this.setState({typeList:res.data})
+      }
+    })
   }
 
   render() {
-    if (this.props.userInfo.scope!==32) {
+    if (this.props.userInfo.scope !== 32) {
       return <Redirect to='/'/>
     } else {
-      const {content} = this.state
-      return (<EditWrapper>
-        <CenterTitle>写博客</CenterTitle>
-        {this.getFrom()}
-        <Row gutter={24}>
-          <Col span={12}><PagesWrapper><Markdown md={content}/></PagesWrapper></Col>
-          <Col span={12}><PagesWrapper><SimpleMDE onChange={this.onChange}/></PagesWrapper></Col>
-        </Row>
-      </EditWrapper>)
+      const {typeList} = this.state
+      return <EditComponent typeList={typeList} onSubmit={this.onSubmit} onSubmitNewType={this.onSubmitNewType}/>
     }
   }
 }

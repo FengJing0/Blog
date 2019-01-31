@@ -1,7 +1,7 @@
 import * as actionsType from './actions-type'
 
 const initUserInfo = {
-  id:11,
+  id:23,
   username:'11',
   nickname:'11',
   scope:32

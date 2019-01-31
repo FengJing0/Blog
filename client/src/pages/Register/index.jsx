@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 
 import Core from '../../components/Core'
 
-import {registerApi} from "../../api/user"
+import {user} from "../../api"
 
 import {Icon, Input, message} from "antd"
 
@@ -30,8 +30,8 @@ class Register extends PureComponent {
       return
     }
 
-    registerApi({username, password}).then(res => {
-      if (res && res.data.errorCode === 0) {
+    user.registerApi({username, password}).then(res => {
+      if (!res.errorCode) {
         this.props.history.push('/login')
       }
     })

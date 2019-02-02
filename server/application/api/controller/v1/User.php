@@ -19,8 +19,7 @@ class User extends BaseController
         if ($user) {
             throw new UserException();
         }
-        $dataArray = ['username' => $username, 'password' => $password, 'nickname' => $nickname];
-        $result = (new UserModel())->saveUser($dataArray);
+        $result = (new UserModel())->saveUser($username,$password,$nickname);
         if($result){
             return json(new SuccessMessage(),201);
         }else{
@@ -30,7 +29,7 @@ class User extends BaseController
 
     public function login($username = '', $password = ''){
         (new UserValidate())->goCheck();
-        $user = UserModel::get(['username'=>$username,'password'=>md5($password)]);
+        $user = UserModel::check($username,$password);
         if(!$user){
             throw new UserException(['msg'=>'帐号密码错误','code'=>404]);
         }

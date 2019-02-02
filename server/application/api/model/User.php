@@ -2,6 +2,8 @@
 
 namespace app\api\model;
 
+use think\Db;
+use think\Exception;
 use think\Request;
 use app\lib\enum\ScopeEnum;
 class User extends BaseModel
@@ -10,22 +12,31 @@ class User extends BaseModel
 
     protected $autoWriteTimestamp = true;
 
-    public function saveUser($user){
-        $nickname = $user['nickname'];
+    public function saveUser($username,$password,$nickname){
         if (!$nickname) {
-            $nickname = $user['username'];
+            $nickname = $username;
         }
-        $this->username = $user['username'];
-        $this->password = md5($user['password']);
-        $this->nickname = $nickname;
-        $this->ip = Request::instance()->ip();
-        $this->scope = ScopeEnum::User;
-        $result = $this->save();
+        Db::startTrans();
+        try{
+            $this->username = $username;
+            $this->password = md5($password);
+            $this->nickname = $nickname;
+            $this->ip = Request::instance()->ip();
+            $this->scope = ScopeEnum::User;
+            $this->save();
 
-        if($result){
-            return $this->get($this->getAttr('id'));
-        }else{
-            return false;
+            $id = $this->get($this->getAttr('id'));
+            Db::commit();
+
+            return $id;
+        }catch (Exception $e){
+            Db::rollback();
+            throw $e;
         }
+
+    }
+
+    public static function check($username,$password){
+        return self::where('username','=',$username)->where('password','=',md5($password))->find();
     }
 }

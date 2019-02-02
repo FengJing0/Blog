@@ -20,6 +20,7 @@ Route::post('api/:version/category/add','api/:version.Category/addCategory');
 
 Route::get('api/:version/blog/all','api/:version.Blog/getAll');
 Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
+Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
 
 
 

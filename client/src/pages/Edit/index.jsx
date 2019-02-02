@@ -8,25 +8,29 @@ import {blog} from "../../api"
 
 class Edit extends PureComponent {
   state = {
-    typeList:[{name: 'it', id: 1}]
+    categoryList:[]
   }
 
   componentDidMount() {
     blog.getCategoryApi().then(res=>{
       if(!res.errorCode){
-        this.setState({typeList:res.data})
+        this.setState({categoryList:res.data})
       }
     })
   }
 
-  onSubmit = ({content,types}) => {
-    console.log(content,types)
+  onSubmit = ({content,category}) => {
+    blog.addBlogApi({content,category,title:'title'}).then(res=>{
+      if(!res.errorCode){
+        console.log(res.data)
+      }
+    })
   }
 
-  onSubmitNewType = type => {
-    blog.addCategoryApi({name:type}).then(res=>{
+  onSubmitNewCategory = category => {
+    blog.addCategoryApi({name:category}).then(res=>{
       if(!res.errorCode){
-        this.setState({typeList:res.data})
+        this.setState({categoryList:res.data})
       }
     })
   }
@@ -35,8 +39,8 @@ class Edit extends PureComponent {
     if (this.props.userInfo.scope !== 32) {
       return <Redirect to='/'/>
     } else {
-      const {typeList} = this.state
-      return <EditComponent typeList={typeList} onSubmit={this.onSubmit} onSubmitNewType={this.onSubmitNewType}/>
+      const {categoryList} = this.state
+      return <EditComponent categoryList={categoryList} onSubmit={this.onSubmit} onSubmitNewCategory={this.onSubmitNewCategory}/>
     }
   }
 }

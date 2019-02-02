@@ -1,30 +1,38 @@
 import React, {PureComponent} from 'react'
 
-import {EditWrapper,FromWrapper} from "./style"
+import {EditWrapper, FromWrapper} from "./style"
 
 import {CenterTitle, PagesWrapper} from "../../style/common_style"
 
-import {Button, Col, Input, Modal, Row, Select} from "antd"
+import {Button, Col, Input, Modal, Row, Select,message} from "antd"
 
 import Markdown from "../Markdown"
 import SimpleMDE from "../SimpleMDE"
 
 const Option = Select.Option
 
-class EditComponent extends PureComponent{
+class EditComponent extends PureComponent {
   state = {
     content: '',
-    types: [],
+    category: [],
     visible: false,
-    newType:''
+    newCategory: ''
   }
 
   handleOk = () => {
-    this.props.onSubmitNewType(this.state.newType)
-    this.setState({
-      visible: false,
-      newType:''
-    });
+    const {newCategory} = this.state
+    const {categoryList,onSubmitNewCategory} = this.props
+
+    if(!categoryList.find(item => item.name.toLowerCase() === newCategory.toLowerCase())){
+      onSubmitNewCategory(this.state.newCategory)
+      this.setState({
+        visible: false,
+        newCategory:''
+      });
+    }else{
+      message.error('该分类已存在')
+    }
+
   }
 
   getModel = () => {
@@ -32,11 +40,12 @@ class EditComponent extends PureComponent{
         title="添加分类"
         visible={this.state.visible}
         onOk={this.handleOk}
-        onCancel={()=>this.setState({visible:false,newType:''})}
+        onCancel={() => this.setState({visible: false, newCategory: ''})}
         okText="确认"
         cancelText="取消"
     >
-      <Input placeholder='请输入分类名称' value={this.state.newType} onChange={e=>this.setState({newType:e.target.value})}/>
+      <Input placeholder='请输入分类名称' value={this.state.newCategory}
+             onChange={e => this.setState({newCategory: e.target.value})}/>
     </Modal>)
   }
 
@@ -46,22 +55,32 @@ class EditComponent extends PureComponent{
           mode="multiple"
           style={{minWidth: 150}}
           placeholder="选择分类"
-          onChange={types => {
-            this.setState({types})
+          onChange={category => {
+            this.setState({category})
           }}
       >
         {
-          this.props.typeList.map(item => (<Option key={item.id}>{item.name}</Option>))
+          this.props.categoryList.map(item => (<Option key={item.id}>{item.name}</Option>))
         }
       </Select>,
-      <Button htmlType='button' type='primary' onClick={()=>this.setState({visible:true})} style={{margin: '0 20px'}}>添加分类</Button>
+      <Button htmlType='button' onClick={() => this.setState({visible: true})}
+              style={{margin: '0 20px'}}>添加分类</Button>
       <Button htmlType='button' type='primary' onClick={this.onSubmit}>提交</Button>
     </FromWrapper>)
   }
 
   onSubmit = () => {
-    const {content,types} = this.state
-    this.props.onSubmit({content,types})
+    const {content, category} = this.state
+    if(!content){
+      message.error('请填写博客')
+      return
+    }
+    if(!category){
+      message.error('请选择分类')
+      return
+    }
+    this.props.onSubmit({content, category})
+    // console.log(JSON.stringify(content))
   }
 
 

@@ -12,6 +12,10 @@ export const getBlogApi = () => http('/blog/all').catch(err=>{
   return handleError(err)
 })
 
-export const addBlogApi = type => http('/blog/add','post',type).catch(err=>{
+export const addBlogApi = ({content,category,title}) => http('/blog/add','post',{content,category,title}).catch(err=>{
+  return handleError(err)
+})
+
+export const getBlogDetail = id => http('/blog/'+id).catch(err=>{
   return handleError(err)
 })

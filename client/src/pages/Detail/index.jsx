@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import {PagesWrapper} from "../../style/common_style"
 import {Col, Divider, Row} from "antd"
+import {blog} from "../../api"
 
 import {Title, Some} from "./style"
 
@@ -20,15 +21,10 @@ class Detail extends PureComponent {
   componentDidMount() {
     const {id, type} = this.props.match.params
     if (type === 'Blog') {
-      this.setState({
-        content: '# 标题\n' +
-            '\n' +
-            '- 列表\n' +
-            '- 列表\n' +
-            '\n' +
-            '```\n' +
-            'alert(\'Hello\')\n' +
-            '```\n'
+      blog.getBlogDetail(id).then(res=>{
+        if(!res.errorCode){
+          console.log(res.data)
+        }
       })
     } else if (type === 'Archives') {
       this.setState({

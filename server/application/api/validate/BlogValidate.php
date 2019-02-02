@@ -6,6 +6,7 @@ class BlogValidate extends BaseValidate
 {
     protected $rule = [
         'content' => 'require|isNotEmpty',
-        'category' => 'require|isNotEmpty'
+        'category' => 'require|isNotEmpty',
+        'title' => 'require|isNotEmpty'
     ];
 }

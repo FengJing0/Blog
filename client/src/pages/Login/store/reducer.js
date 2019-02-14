@@ -1,10 +1,12 @@
 import * as actionsType from './actions-type'
+import {scope} from "../../../enum"
+
 
 const initUserInfo = {
   id:23,
   username:'11',
   nickname:'11',
-  scope:32
+  scope:scope.Super
 }
 
 export default  (state=initUserInfo,action) => {

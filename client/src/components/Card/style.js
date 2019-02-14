@@ -20,3 +20,9 @@ export const Date = styled('p')`
   font-size:14px;
   margin:0;
 `
+
+export const Type = styled('span')`
+  font-size:14px;
+  color:${p=>p.theme.subFont}
+  font-weight:normal;
+`

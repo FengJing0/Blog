@@ -11,6 +11,10 @@
 
 use think\Route;
 
+Route::get('/','api/v1.Index/index');
+
+Route::get('api/:version/home','api/:version.Index/home');
+
 Route::post('api/:version/register','api/:version.User/register');
 Route::post('api/:version/login','api/:version.User/login');
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {message} from "antd"
-const BaseUrl = 'http://b.cn/api/v1'
+const BaseUrl = 'http://z.cn/api/v1'
 
 const http = (url='',type='',data={})=>{
   switch (type) {
@@ -12,7 +12,7 @@ const http = (url='',type='',data={})=>{
 }
 
 export const handleError = err => {
-  // console.log(err)
+  console.log(err.response)
   const msg = err.response.data.msg
   if(typeof msg === 'object'){
     Object.values(msg).forEach(item => message.error(item))

@@ -7,6 +7,18 @@ import Card from "../Card"
 
 const CardList = props => {
   const {title,list,id} = props
+  if(title === 'Collections'){
+    return (
+        <PagesWrapper id={id} className='b-mb' padding='0'>
+          {title&&<Title>{title}</Title>}
+          {
+            list.map(item=>(<a key={item.id} href={item.url} target='_blank' rel='noopener noreferrer'>
+              <Card title={item.title} gist={item.summary} type={item.type}/>
+            </a>))
+          }
+        </PagesWrapper>
+    )
+  }
   return (
       <PagesWrapper id={id} className='b-mb' padding='0'>
         {title&&<Title>{title}</Title>}

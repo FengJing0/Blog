@@ -1,10 +1,23 @@
 import React,{PureComponent} from 'react'
-import {PagesWrapper} from "../../style/common_style"
+import {collections} from "../../api"
+import Page from "../../components/Page"
 
 
 class Collections extends PureComponent{
+  state = {
+    list:[]
+  }
+
+  componentDidMount() {
+    collections.getCollectionsApi().then(res=>{
+      console.log(res.data.data)
+      this.setState({list:res.data.data})
+    })
+  }
+
+
   render() {
-    return <PagesWrapper>正在施工</PagesWrapper>
+    return <Page type='Collections' list={this.state.list}/>
   }
 }
 

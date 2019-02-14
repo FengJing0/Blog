@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import {Col, Row,Anchor} from "antd"
 import CardList from '../../components/CardList'
-import {blog} from "../../api"
+import {home} from "../../api"
 
 const { Link } = Anchor;
 
@@ -13,29 +13,45 @@ class Home extends PureComponent {
   }
 
   componentDidMount() {
-    blog.getBlogApi().then(res=>{
+    home.getHomeList().then(res=>{
       if(!res.errorCode){
         // console.log(res.data)
-        this.setState({BlogList:res.data.data})
+        this.setState({
+          BlogList:res.data.BlogList.data,
+          ArchivesList:res.data.ArchivesList.data,
+          CollectionsList:res.data.CollectionsList.data,
+        })
       }
     })
+  }
+
+  getList = (type,list) => {
+    if(list.length){
+      return <CardList id={type} title={type} list={list} />
+    }
+  }
+
+  getLink = (type,list) => {
+     if(list.length){
+       return <Link href={'#'+type} title={type} />
+     }
   }
 
 
   getMain = () => {
     return (<Col span={18} id='body'>
-      <CardList id='Blog' title='Blog' list={this.state.BlogList} />
-      <CardList id='Archives' title='Archives' list={this.state.ArchivesList}/>
-      <CardList id='Collections' title='Collections' list={this.state.CollectionsList}/>
+      {this.getList('Blog',this.state.BlogList)}
+      {this.getList('Archives',this.state.ArchivesList)}
+      {this.getList('Collections',this.state.CollectionsList)}
     </Col>)
   }
 
   getAside = () => {
     return (<Col span={6}>
         <Anchor target={() => document.getElementById('body')}>
-          <Link href="#Blog" title="Blog" />
-          <Link href="#Archives" title="Archives" />
-          <Link href="#Collections" title="Collections"/>
+          {this.getLink('Blog',this.state.BlogList)}
+          {this.getLink('Archives',this.state.ArchivesList)}
+          {this.getLink('Collections',this.state.CollectionsList)}
         </Anchor>,
     </Col>)
   }

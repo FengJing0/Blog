@@ -11,24 +11,26 @@ import Main from "./pages/Main"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 
+import theme from "./style/theme"
 import 'github-markdown-css'
 import {Iconfont} from "./assets/iconfont/iconfont"
 import './style/common.less'
 import './style/antd.less'
 import 'simplemde/dist/simplemde.min.css'
 
-const theme = {
-  primary:'#1890ff',
-  headerbg:'#2d2d2d',
-  subFont:'#9d9d9d',
-  titleColor:'#0085a1'
-}
+import {LocaleProvider} from "antd"
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
 
 ReactDOM.render((
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Iconfont/>
+          <LocaleProvider locale={zhCN}>
           <BrowserRouter>
             <Switch>
               <Route path='/register' component={Register}/>
@@ -36,6 +38,7 @@ ReactDOM.render((
               <Route  component={Main}/>
             </Switch>
           </BrowserRouter>
+          </LocaleProvider>
         </Provider>
       </ThemeProvider>
     </React.Fragment>

@@ -12,7 +12,7 @@ const CardList = props => {
         {title&&<Title>{title}</Title>}
         {
           list.map(item=>(<Link key={item.id} to={`/Detail/${title}/${item.id}`}>
-            <Card title={item.title} gist={item.gist} date={item.date}/>
+            <Card title={item.title} gist={item.gist} date={item.create_time}/>
           </Link>))
         }
       </PagesWrapper>

@@ -22,7 +22,8 @@ Route::get('api/:version/blog/all','api/:version.Blog/getAll');
 Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
 Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
 
-
+Route::get('api/:version/collections/all','api/:version.Collections/getAll');
+Route::post('api/:version/collections/add','api/:version.Collections/addCollections');
 
 //Route::get('api/:version/product/:id','api/:version.Product/getOne',[],['id'=>'\d+']);
 //Route::get('api/:version/product/recent','api/:version.Product/getRecent');

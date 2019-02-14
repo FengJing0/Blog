@@ -41,6 +41,6 @@ class Blog
 
     public function getBlogDetail($id){
         (new IDMustBePositiveInt())->goCheck();
-        return $id;
+        return BlogModel::getBlogWithCategory($id)->hidden(['gist']);
     }
 }

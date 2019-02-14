@@ -15,7 +15,7 @@ function getNavList() {
     {to: '/', title: 'Home', icon: 'homepage_fill'},
     {to: '/Blog', title: 'Blog', icon: 'activity_fill'},
     {to: '/Archives', title: 'Archives', icon: 'document_fill'},
-    {to: 'Collections', title: 'Collections', icon: 'collection_fill'},
+    {to: '/Collections', title: 'Collections', icon: 'collection_fill'},
     {to: '/Demo', title: 'Demo', icon: 'createtask_fill'},
     {to: '/About', title: 'About', icon: 'like_fill'}
   ]

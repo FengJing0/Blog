@@ -4,6 +4,8 @@ export const PagesWrapper = styled('div')`
   background-color:${p => p.bg || '#fff'};
   box-shadow: 0 1px 2px rgba(0,0,0,.4);
   padding:${props => props.padding || '20px'};
+  min-height:${p=>p.height||'300px'};
+  border-radius:4px;
 `
 
 export const Title = styled('p')`

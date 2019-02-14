@@ -23,7 +23,13 @@ class Detail extends PureComponent {
     if (type === 'Blog') {
       blog.getBlogDetail(id).then(res=>{
         if(!res.errorCode){
-          console.log(res.data)
+          const {content,title,category,create_time} = res.data
+          this.setState({
+            content,
+            title,
+            tags:category,
+            date:create_time
+          })
         }
       })
     } else if (type === 'Archives') {
@@ -70,6 +76,9 @@ class Detail extends PureComponent {
 
   getTags = tags => {
     if(tags){
+      if(typeof tags[0] === 'object'){
+        tags = tags.map(item=>item.name)
+      }
       return (<React.Fragment>
         <Icon name='label_fill' size='18px'/>
         <span>{tags.join(',')}</span>

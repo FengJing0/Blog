@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
 import {Col, Row,Anchor} from "antd"
-import day from 'dayjs'
 import CardList from '../../components/CardList'
 import {blog} from "../../api"
 
@@ -8,19 +7,16 @@ const { Link } = Anchor;
 
 class Home extends PureComponent {
   state={
-    BlogList : [
-      {id:1,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')},
-      {id:2,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')},
-      {id:3,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')},
-      {id:4,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')},
-      {id:5,title:'《Javascript高级程序设计》读书笔记3',gist:'8.BOM ,10.DOM,11.DOM扩展,12.DOM2DOM3',date:day(1548578936*1000).format('YYYY-MM-DD hh:mm:ss')}
-    ]
+    BlogList : [],
+    ArchivesList:[],
+    CollectionsList:[],
   }
 
   componentDidMount() {
     blog.getBlogApi().then(res=>{
       if(!res.errorCode){
-        this.setState({BlogList:res.data})
+        // console.log(res.data)
+        this.setState({BlogList:res.data.data})
       }
     })
   }
@@ -29,8 +25,8 @@ class Home extends PureComponent {
   getMain = () => {
     return (<Col span={18} id='body'>
       <CardList id='Blog' title='Blog' list={this.state.BlogList} />
-      <CardList id='Archives' title='Archives' list={this.state.BlogList}/>
-      <CardList id='Collections' title='Collections' list={this.state.BlogList}/>
+      <CardList id='Archives' title='Archives' list={this.state.ArchivesList}/>
+      <CardList id='Collections' title='Collections' list={this.state.CollectionsList}/>
     </Col>)
   }
 

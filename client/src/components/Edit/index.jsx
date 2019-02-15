@@ -1,35 +1,53 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types';
 
 import {EditWrapper, FromWrapper} from "./style"
 
 import {CenterTitle, PagesWrapper} from "../../style/common_style"
 
-import {Button, Col, Input, Modal, Row, Select,message} from "antd"
+import {Button, Col, Input, Modal, Row, Select, message, Upload, Icon} from "antd"
 
 import Markdown from "../Markdown"
 import SimpleMDE from "../SimpleMDE"
+
+import {BaseUrl,BaseUploadImgPath} from "../../api/http"
+
 
 const Option = Select.Option
 
 class EditComponent extends PureComponent {
   state = {
     content: '',
+    title:'',
     category: [],
     visible: false,
-    newCategory: ''
+    newCategory: '',
+    fileList: [],
   }
+
+  static propTypes = {
+    categoryList:PropTypes.array.isRequired,
+    onSubmitNewCategory:PropTypes.func.isRequired,
+    onSubmit:PropTypes.func.isRequired,
+    blog:PropTypes.object
+  }
+
+  componentDidMount() {
+
+  }
+
 
   handleOk = () => {
     const {newCategory} = this.state
-    const {categoryList,onSubmitNewCategory} = this.props
+    const {categoryList, onSubmitNewCategory} = this.props
 
-    if(!categoryList.find(item => item.name.toLowerCase() === newCategory.toLowerCase())){
+    if (!categoryList.find(item => item.name.toLowerCase() === newCategory.toLowerCase())) {
       onSubmitNewCategory(this.state.newCategory)
       this.setState({
         visible: false,
-        newCategory:''
-      });
-    }else{
+        newCategory: ''
+      })
+    } else {
       message.error('该分类已存在')
     }
 
@@ -49,6 +67,43 @@ class EditComponent extends PureComponent {
     </Modal>)
   }
 
+  uploadProps = {
+    name: 'img',
+    action: BaseUrl + '/upload',
+    headers: {
+      authorization: 'authorization-text',
+    },
+
+  }
+
+  handleUploadChange = (info) => {
+    let fileList = info.fileList
+    fileList = fileList.map((file) => {
+      if (file.response) {
+        file.name = `${BaseUploadImgPath}/${file.response}`.replace(/\\/,'/')
+      }
+      return file
+    })
+    this.setState({fileList})
+    // if (info.file.status !== 'uploading') {
+    //   console.log(info.file, info.fileList)
+    // }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} 上传成功`)
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} 上传失败`)
+    }
+  }
+
+  getUpload = () => (
+      <Upload {...this.uploadProps} onChange={this.handleUploadChange} fileList={this.state.fileList} className='b-mr'>
+        <Button>
+          <Icon type="upload"/> 上传图片
+        </Button>
+      </Upload>
+  )
+
+
   getFrom = () => {
     return (<FromWrapper>
       <Select
@@ -65,29 +120,35 @@ class EditComponent extends PureComponent {
       </Select>,
       <Button htmlType='button' onClick={() => this.setState({visible: true})}
               style={{margin: '0 20px'}}>添加分类</Button>
+      {this.getUpload()}
       <Button htmlType='button' type='primary' onClick={this.onSubmit}>提交</Button>
     </FromWrapper>)
   }
 
   onSubmit = () => {
-    const {content, category} = this.state
-    if(!content){
+    const {content, category,title} = this.state
+    if (!content) {
       message.error('请填写博客')
       return
     }
-    if(!category){
+    if (!title) {
+      message.error('请填写标题')
+      return
+    }
+    if (!category) {
       message.error('请选择分类')
       return
     }
-    this.props.onSubmit({content, category})
-    // console.log(JSON.stringify(content))
+    this.props.onSubmit({content, category, title})
   }
 
 
   render() {
-    const {content} = this.state
+    const {content,title} = this.state
     return (<EditWrapper>
       <CenterTitle>写博客</CenterTitle>
+      <Input value={title} placeholder='请输入标题'
+             onChange={e => this.setState({title: e.target.value})}/>
       {this.getFrom()}
       {this.getModel()}
       <Row gutter={24}>

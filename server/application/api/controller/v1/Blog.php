@@ -39,6 +39,16 @@ class Blog
         return $blogId;
     }
 
+    public function updateBlog($title='',$content='',$category=[],$gist='',$id){
+        (new BlogValidate())->goCheck();
+        $blog = new BlogService();
+        $blogId = $blog->update($title,$content,$category,$gist,$id);
+//        if(!$blogId){
+//            throw new Exception('更新博客失败');
+//        }
+        return $blogId;
+    }
+
     public function getBlogDetail($id){
         (new IDMustBePositiveInt())->goCheck();
         return BlogModel::getBlogWithCategory($id)->hidden(['gist']);

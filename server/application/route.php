@@ -15,6 +15,8 @@ Route::get('/','api/v1.Index/index');
 
 Route::get('api/:version/home','api/:version.Index/home');
 
+Route::post('api/:version/upload','api/:version.Upload/index');
+
 Route::post('api/:version/register','api/:version.User/register');
 Route::post('api/:version/login','api/:version.User/login');
 
@@ -24,6 +26,7 @@ Route::post('api/:version/category/add','api/:version.Category/addCategory');
 
 Route::get('api/:version/blog/all','api/:version.Blog/getAll');
 Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
+Route::post('api/:version/blog/update/:id','api/:version.Blog/updateBlog');
 Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
 
 Route::get('api/:version/collections/all','api/:version.Collections/getAll');

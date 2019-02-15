@@ -20,4 +20,8 @@ class Blog extends BaseModel
         return self::with('category')->find($id);
     }
 
+    public static function getBlogById($id){
+        return self::where('id','=',$id)->find();
+    }
+
 }

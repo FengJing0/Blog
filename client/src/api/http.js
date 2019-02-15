@@ -1,6 +1,8 @@
 import axios from 'axios'
 import {message} from "antd"
-const BaseUrl = 'http://z.cn/api/v1'
+const BaseHost = 'http://z.cn'
+export const BaseUrl = BaseHost+'/api/v1'
+export const BaseUploadImgPath = BaseHost+'/uploads'
 
 const http = (url='',type='',data={})=>{
   switch (type) {

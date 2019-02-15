@@ -1,6 +1,10 @@
 import React, {PureComponent} from 'react'
 import {PagesWrapper} from "../../style/common_style"
 import {Col, Divider, Row} from "antd"
+import {Link} from "react-router-dom"
+import {connect} from "react-redux"
+
+import {scope} from "../../enum"
 import {blog} from "../../api"
 
 import {Title, Some} from "./style"
@@ -86,6 +90,16 @@ class Detail extends PureComponent {
     }
   }
 
+  getEdit = () => {
+    const {id, type} = this.props.match.params
+    if(type === 'Blog'&&this.props.userInfo.scope===scope.Super){
+      return <Link to={{
+        pathname:'/edit',
+        state:id
+      }}>编辑</Link>
+    }
+  }
+
   getSome = (date,tags,author) => {
     const Author = this.getAuthor(author)
     const Date = this.getDate(date)
@@ -95,6 +109,8 @@ class Detail extends PureComponent {
       {Date}
       {Tags}
       {Author}
+      &nbsp;&nbsp;
+      {this.getEdit()}
     </Some>)
   }
 
@@ -119,4 +135,8 @@ class Detail extends PureComponent {
   }
 }
 
-export default Detail
+const mapStateToProps = state => ({
+  userInfo:state.userInfo
+})
+
+export default connect(mapStateToProps)(Detail)

@@ -46,7 +46,7 @@ class Blog
 //        if(!$blogId){
 //            throw new Exception('更新博客失败');
 //        }
-        return $blogId;
+        return 2;
     }
 
     public function getBlogDetail($id){

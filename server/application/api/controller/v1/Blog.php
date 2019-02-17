@@ -8,6 +8,7 @@ use app\api\validate\IDMustBePositiveInt;
 use app\api\validate\PagingParameter;
 use app\lib\exception\BlogException;
 use app\api\service\Blog as BlogService;
+use app\lib\exception\SuccessMessage;
 use think\Exception;
 
 class Blog
@@ -36,17 +37,17 @@ class Blog
         if(!$blogId){
             throw new Exception('创建博客失败');
         }
-        return $blogId;
+        return new SuccessMessage();
     }
 
     public function updateBlog($title='',$content='',$category=[],$gist='',$id){
         (new BlogValidate())->goCheck();
         $blog = new BlogService();
         $blogId = $blog->update($title,$content,$category,$gist,$id);
-//        if(!$blogId){
-//            throw new Exception('更新博客失败');
-//        }
-        return 2;
+        if(!$blogId){
+            throw new Exception('更新博客失败');
+        }
+        return new SuccessMessage();
     }
 
     public function getBlogDetail($id){

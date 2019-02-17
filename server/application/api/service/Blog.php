@@ -4,6 +4,7 @@ namespace app\api\service;
 
 use app\api\model\BlogCategory;
 use app\api\model\Blog as BlogModel;
+use app\lib\exception\BlogException;
 use think\Db;
 use think\Exception;
 
@@ -58,20 +59,12 @@ class Blog
         Db::startTrans();
         try {
             $blog = new BlogModel();
-            $blog->content = $this->content;
-            $blog->title = $this->title;
-            $blog->gist = $this->gist;
-
-            $blog->save();
+            $blog = $this->saveBlog($blog);
 
             $blogId = $blog->id;
 
-            $b_c = [];
-            foreach ($this->category as $c) {
-                array_push($b_c, ['category_id' => $c, 'blog_id' => $blogId]);
-            }
-            $blogCategory = new BlogCategory();
-            $blogCategory->saveAll($b_c);
+            $this->saveBlogCategory($blogId);
+
             Db::commit();
 
             return $blogId;
@@ -85,14 +78,15 @@ class Blog
         Db::startTrans();
         try {
             $blog = BlogModel::getBlogById($id);
+            if(!$blog){
+                throw new BlogException();
+            }
+            $this->saveBlog($blog);
 
+            BlogCategory::deleteBlogCategoryByBlogId($id);
 
-            $b_c = [];
-//            foreach ($this->category as $c) {
-//                array_push($b_c, ['category_id' => $c, 'blog_id' => $blogId]);
-//            }
-//            $blogCategory = new BlogCategory();
-//            $blogCategory->saveAll($b_c);
+            $this->saveBlogCategory($id);
+
             Db::commit();
 
             return $blog;
@@ -100,5 +94,22 @@ class Blog
             Db::rollback();
             throw $e;
         }
+    }
+
+    protected function saveBlog(&$blog){
+        $blog->title = $this->title;
+        $blog->content = $this->content;
+        $blog->gist = $this->gist;
+        $blog->save();
+        return $blog;
+    }
+
+    protected function saveBlogCategory($id){
+        $b_c = [];
+        foreach ($this->category as $c) {
+            array_push($b_c, ['category_id' => $c, 'blog_id' => $id]);
+        }
+        $blogCategory = new BlogCategory();
+        $blogCategory->saveAll($b_c);
     }
 }

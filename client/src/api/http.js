@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {message} from "antd"
-const BaseHost = 'http://z.cn'
+const BaseHost = 'http://b.cn'
 export const BaseUrl = BaseHost+'/api/v1'
 export const BaseUploadImgPath = BaseHost+'/uploads'
 
@@ -14,7 +14,7 @@ const http = (url='',type='',data={})=>{
 }
 
 export const handleError = err => {
-  console.log(err.response)
+  // console.log(err.response)
   const msg = err.response.data.msg
   if(typeof msg === 'object'){
     Object.values(msg).forEach(item => message.error(item))

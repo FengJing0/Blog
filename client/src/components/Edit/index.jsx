@@ -11,6 +11,7 @@ import Markdown from "../Markdown"
 import SimpleMDE from "../SimpleMDE"
 
 import {BaseUrl,BaseUploadImgPath} from "../../api/http"
+import {blog} from "../../api"
 
 
 const Option = Select.Option
@@ -29,29 +30,30 @@ class EditComponent extends PureComponent {
     categoryList:PropTypes.array.isRequired,
     onSubmitNewCategory:PropTypes.func.isRequired,
     onSubmit:PropTypes.func.isRequired,
-    blog:PropTypes.object
+    blog:PropTypes.object,
+    id:PropTypes.number
   }
 
   componentDidMount() {
-
-  }
-
-
-  handleOk = () => {
-    const {newCategory} = this.state
-    const {categoryList, onSubmitNewCategory} = this.props
-
-    if (!categoryList.find(item => item.name.toLowerCase() === newCategory.toLowerCase())) {
-      onSubmitNewCategory(this.state.newCategory)
-      this.setState({
-        visible: false,
-        newCategory: ''
+    const {id} = this.props
+    // console.log(id)
+    if(id){
+      blog.getBlogDetail(id).then(res=>{
+        if(!res.errorCode){
+          const {content,title,category} = res.data
+          const tags = category.map(e=>e.id+'')
+          this.setState({
+            content,
+            title,
+            category:tags,
+          })
+        }
       })
-    } else {
-      message.error('该分类已存在')
     }
-
   }
+
+
+
 
   getModel = () => {
     return (<Modal
@@ -76,7 +78,7 @@ class EditComponent extends PureComponent {
 
   }
 
-  handleUploadChange = (info) => {
+  handleUploadChange = info => {
     let fileList = info.fileList
     fileList = fileList.map((file) => {
       if (file.response) {
@@ -103,10 +105,10 @@ class EditComponent extends PureComponent {
       </Upload>
   )
 
-
   getFrom = () => {
     return (<FromWrapper>
       <Select
+          value={this.state.category}
           mode="multiple"
           style={{minWidth: 150}}
           placeholder="选择分类"
@@ -121,11 +123,20 @@ class EditComponent extends PureComponent {
       <Button htmlType='button' onClick={() => this.setState({visible: true})}
               style={{margin: '0 20px'}}>添加分类</Button>
       {this.getUpload()}
-      <Button htmlType='button' type='primary' onClick={this.onSubmit}>提交</Button>
+      <Button htmlType='button' type='primary' onClick={this.handleSubmit}>提交</Button>
     </FromWrapper>)
   }
 
-  onSubmit = () => {
+
+  getMDE = (id,content) => {
+    if(id&&!content){
+      return
+    }
+    return <SimpleMDE value={content}
+                      onChange={content => {this.setState({content})}}/>
+  }
+
+  handleSubmit = () => {
     const {content, category,title} = this.state
     if (!content) {
       message.error('请填写博客')
@@ -142,9 +153,27 @@ class EditComponent extends PureComponent {
     this.props.onSubmit({content, category, title})
   }
 
+  handleOk = () => {
+    const {newCategory} = this.state
+    const {categoryList, onSubmitNewCategory} = this.props
+
+    if (!categoryList.find(item => item.name.toLowerCase() === newCategory.toLowerCase())) {
+      onSubmitNewCategory(this.state.newCategory)
+      this.setState({
+        visible: false,
+        newCategory: ''
+      })
+    } else {
+      message.error('该分类已存在')
+    }
+
+  }
+
 
   render() {
     const {content,title} = this.state
+    const {id} = this.props
+    // console.log(content)
     return (<EditWrapper>
       <CenterTitle>写博客</CenterTitle>
       <Input value={title} placeholder='请输入标题'
@@ -152,10 +181,12 @@ class EditComponent extends PureComponent {
       {this.getFrom()}
       {this.getModel()}
       <Row gutter={24}>
-        <Col span={12}><PagesWrapper><Markdown md={content}/></PagesWrapper></Col>
-        <Col span={12}><PagesWrapper><SimpleMDE onChange={content => {
-          this.setState({content})
-        }}/></PagesWrapper></Col>
+        <Col span={12}><PagesWrapper>
+          <Markdown md={content} />
+        </PagesWrapper></Col>
+        <Col span={12}><PagesWrapper>
+          {this.getMDE(id,content)}
+        </PagesWrapper></Col>
       </Row>
     </EditWrapper>)
   }

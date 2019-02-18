@@ -11,17 +11,17 @@ if (!window.particlesJS) {
   require('particles.js')
 }
 
-function getLabel(type) {
-  if(type==='login'){
-    return <p>还没有帐号，现在 <Link to='/register'>注册</Link></p>
-  }else{
-    return <p>已有帐号，现在 <Link to='/login'>登录</Link></p>
-  }
-}
-
 class Core extends PureComponent{
   componentDidMount() {
     window.particlesJS('page', config)
+  }
+
+  getLabel = (type) => {
+    if(type==='login'){
+      return <p>还没有帐号，现在 <Link to='/register'>注册</Link></p>
+    }else{
+      return <p>已有帐号，现在 <Link to='/login'>登录</Link></p>
+    }
   }
 
   submit = e => {
@@ -48,7 +48,7 @@ class Core extends PureComponent{
               }
             </Item>))
           }
-          {getLabel(type)}
+          {this.getLabel(type)}
           <Item>
             <Button type="primary" htmlType="submit" block>
               {type==='login'?'登录':'注册'}

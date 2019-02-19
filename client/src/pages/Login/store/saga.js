@@ -9,7 +9,7 @@ function* getUserInfo(values) {
   try {
     const res = yield user.loginApi(values.data)
     if (!res.errorCode) {
-      yield put(getUserInfoAction(res.data))
+      yield put(getUserInfoAction(res))
     }
   } catch (e) {
     console.log('登录失败：' + e)

@@ -10,8 +10,8 @@ class Collections extends PureComponent{
 
   componentDidMount() {
     collections.getCollectionsApi().then(res=>{
-      console.log(res.data.data)
-      this.setState({list:res.data.data})
+      console.log(res.data)
+      this.setState({list:res.data})
     })
   }
 

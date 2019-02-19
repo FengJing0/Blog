@@ -28,7 +28,7 @@ class Edit extends PureComponent {
   componentDidMount() {
     blog.getCategoryApi().then(res => {
       if (!res.errorCode) {
-        this.setState({categoryList: res.data})
+        this.setState({categoryList: res})
       }
     })
 
@@ -40,21 +40,19 @@ class Edit extends PureComponent {
         blog.addBlogApi({content, category, title})
 
     api.then(res => {
-      if (!res.errorCode) {
-        if(!res.data.errorCode){
-          message.success(res.data.msg)
+        if(!res.errorCode){
+          message.success(res.msg)
           this.props.history.push('/Blog')
         }else{
-          message.error(res.data.msg)
+          message.error(res.msg)
         }
-      }
     })
   }
 
   onSubmitNewCategory = category => {
     blog.addCategoryApi({name: category}).then(res => {
       if (!res.errorCode) {
-        this.setState({categoryList: res.data})
+        this.setState({categoryList: res})
       }
     })
   }

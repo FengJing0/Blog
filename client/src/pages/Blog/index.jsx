@@ -17,8 +17,8 @@ class Blog extends PureComponent {
     blog.getBlogApi().then(res => {
       if (!res.errorCode) {
         this.setState({
-          BlogList: res.data.data,
-          dateList: res.data.data.map(item => item.create_time.slice(0, 10))
+          BlogList: res.data,
+          dateList: res.data.map(item => item.create_time.slice(0, 10))
         })
       }
     })

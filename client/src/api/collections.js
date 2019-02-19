@@ -1,5 +1,3 @@
-import http,{handleError} from './http'
+import http from './http'
 
-export const getCollectionsApi = () => http('/collections/all').catch(err=>{
-  return handleError(err)
-})
+export const getCollectionsApi = () => http('/collections/all')

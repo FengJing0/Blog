@@ -4,16 +4,7 @@ const BaseHost = 'http://b.cn'
 export const BaseUrl = BaseHost+'/api/v1'
 export const BaseUploadImgPath = BaseHost+'/uploads'
 
-const http = (url='',type='',data={})=>{
-  switch (type) {
-    case 'post':
-      return axios.post(BaseUrl+url,data)
-    default:
-      return axios.get(BaseUrl+url,{params:data})
-  }
-}
-
-export const handleError = err => {
+const handleError = err => {
   // console.log(err.response)
   const msg = err.response.data.msg
   if(typeof msg === 'object'){
@@ -24,5 +15,15 @@ export const handleError = err => {
   return {errorCode:err.response.data.errorCode}
 }
 
-
-export default http
+export default (url='',type='',data={})=>{
+  switch (type) {
+    case 'post':
+      return axios.post(BaseUrl+url,data).then(res=>{
+        return res.data
+      }).catch(err=>handleError(err))
+    default:
+      return axios.get(BaseUrl+url,{params:data}).then(res=>{
+        return res.data
+      }).catch(err=>handleError(err))
+  }
+}

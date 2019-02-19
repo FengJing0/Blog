@@ -40,7 +40,7 @@ class EditComponent extends PureComponent {
     if(id){
       blog.getBlogDetail(id).then(res=>{
         if(!res.errorCode){
-          const {content,title,category} = res.data
+          const {content,title,category} = res
           const tags = category.map(e=>e.id+'')
           this.setState({
             content,
@@ -51,8 +51,6 @@ class EditComponent extends PureComponent {
       })
     }
   }
-
-
 
 
   getModel = () => {

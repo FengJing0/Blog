@@ -27,7 +27,7 @@ class Detail extends PureComponent {
     if (type === 'Blog') {
       blog.getBlogDetail(id).then(res=>{
         if(!res.errorCode){
-          const {content,title,category,create_time} = res.data
+          const {content,title,category,create_time} = res
           this.setState({
             content,
             title,

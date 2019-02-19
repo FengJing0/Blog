@@ -1,5 +1,3 @@
-import http,{handleError} from './http'
+import http from './http'
 
-export const getHomeList = () => http('/home').catch(err=>{
-  return handleError(err)
-})
+export const getHomeList = () => http('/home')

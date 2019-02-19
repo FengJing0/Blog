@@ -14,15 +14,15 @@ class Home extends PureComponent {
 
   componentDidMount() {
     home.getHomeList().then(res=>{
-      if(!res.errorCode){
-        // console.log(res.data)
-        this.setState({
-          BlogList:res.data.BlogList.data,
-          ArchivesList:res.data.ArchivesList.data,
-          CollectionsList:res.data.CollectionsList.data,
-        })
+        if(!res.errorCode){
+          this.setState({
+            BlogList:res.BlogList.data,
+            ArchivesList:res.ArchivesList.data,
+            CollectionsList:res.CollectionsList.data,
+          })
+        }
       }
-    })
+    )
   }
 
   getList = (type,list) => {

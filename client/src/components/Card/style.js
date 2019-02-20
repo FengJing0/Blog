@@ -9,7 +9,7 @@ export const Title = styled('p')`
 
 export const Gist = styled('p')`
   font-size:16px;
-  margin:15px 0;
+  margin:5px 0;
   transition:color 1s;
   &:hover{
     color:${props => props.theme.titleColor}

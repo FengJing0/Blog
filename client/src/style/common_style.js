@@ -9,7 +9,7 @@ export const PagesWrapper = styled('div')`
 `
 
 export const Title = styled('p')`
-  font-size:32px;
+  font-size:28px;
   font-weight:bolder;
   background:#fff;
   padding:15px 0 15px 15px;

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 
 import {List} from "./style"
 import {PagesWrapper, Title} from "../../style/common_style"
-import {Col, Divider, Row, Tag} from "antd"
+import {Button, Col, Divider, Row, Tag} from "antd"
 
 import {scope} from "../../enum"
 
@@ -18,30 +18,42 @@ const getTags = tags => {
 }
 
 const getEditBtn = (type, userInfo) => {
-  if (userInfo.scope === scope.Super && type === 'Blog') {
-    return <Link to='/edit'>写博客</Link>
+  if (userInfo.scope === scope.Super) {
+    switch (type) {
+      case 'Blog':
+        return <Link to='/edit'>写博客</Link>
+      case 'Collections':
+        return <Button htmlType='button' >新增收藏</Button>
+      default:
+          return null
+    }
+
   }
+}
+
+const collections = (type,list,userInfo) => {
+  return (
+      <Col span={18}>
+        <PagesWrapper>
+          <Title>{type} {getEditBtn(type, userInfo)}</Title>
+          <Divider/>
+          <ul>
+            {
+              list.map(item => (<List key={item.id}>
+                <a href={item.url} target='_blank' rel='noopener noreferrer'>{item.title}</a>&nbsp;
+                {getTags([item.type])}
+                <p>{item.summary}</p>
+              </List>))
+            }
+          </ul>
+        </PagesWrapper>
+      </Col>
+  )
 }
 
 const getMain = ({type, list, userInfo}) => {
   if(type==='Collections'){
-    return (
-        <Col span={18}>
-          <PagesWrapper>
-            <Title>{type}</Title>
-            <Divider/>
-            <ul>
-              {
-                list.map(item => (<List key={item.id}>
-                  <a href={item.url} target='_blank' rel='noopener noreferrer'>{item.title}</a>&nbsp;
-                  {getTags([item.type])}
-                  <p>{item.summary}</p>
-                </List>))
-              }
-            </ul>
-          </PagesWrapper>
-        </Col>
-    )
+    return collections(type,list,userInfo)
   }
 
   return (<Col span={18}>

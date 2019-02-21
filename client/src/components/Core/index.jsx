@@ -25,9 +25,9 @@ class Core extends PureComponent{
   }
 
   submit = e => {
-    const {handleSubmit} = this.props
+    const {handleSubmit,form} = this.props
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         handleSubmit(values)
       }

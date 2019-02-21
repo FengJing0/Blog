@@ -36,9 +36,11 @@ const Header = props => {
   return (
       <HeaderComponent>
         <HeaderWrapper className='b-clearfix'>
-          <Logo className='b-fl'>
-            Logo
-          </Logo>
+          <Link to='/'>
+            <Logo className='b-fl'>
+              Logo
+            </Logo>
+          </Link>
 
           {getBtn(userInfo)}
 

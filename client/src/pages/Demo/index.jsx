@@ -1,6 +1,9 @@
 import React,{PureComponent} from 'react'
-import {blog, collections} from "../../api"
+import {demo} from "../../api"
 import Page from "../../components/Page"
+import CategorySelect from "../Collections"
+import {Calendar, message} from "antd"
+import {connect} from "react-redux"
 
 
 class Demo extends PureComponent{
@@ -24,34 +27,51 @@ class Demo extends PureComponent{
       },
       {
         label: '分类',
-        key: 'type',
-        type: 'select',
-        list:[]
+        key: 'category',
+        component: () => <CategorySelect defaultMode={true} width={250}/>
       }
     ]
   }
 
+
   componentDidMount() {
-    collections.getCollectionsApi().then(res=>{
-      this.setState({list:res.data})
-    })
-    blog.getCategoryApi().then(res=>{
-      this.setState((state) => {
-        let formList = state.formList
-        formList[3].list = res
-        return {formList}
-      })
+    this.getData()
+  }
+
+  static getDerivedStateFromProps(nextProps, nextState) {
+    if (nextProps.categoryList !== nextState.formList[3].list) {
+      let formList = nextState.formList
+      formList[3].list = nextProps.categoryList
+      return {formList}
+    }
+    return null
+  }
+
+  getData = () => {
+    demo.getDemosApi().then(res => {
+      this.setState({list: res.data})
     })
   }
 
   handleSubmit = from => {
-    console.log(from)
+    demo.addDemoApi(from).then(res=>{
+      if(!res.errorCode){
+        this.getData()
+        message.success('添加成功！')
+      }
+    })
   }
 
   render() {
-    const {list,formList} = this.state
-    return <Page type='Demo' list={list} formList={formList} submit={this.handleSubmit}/>
+    const {list, formList} = this.state
+    return <Page type='Demo' list={list} formList={formList} submit={this.handleSubmit}>
+      <Calendar fullscreen={false}/>
+    </Page>
   }
 }
 
-export default Demo
+const mapStateToProps = state => ({
+  categoryList: state.category
+})
+
+export default connect(mapStateToProps)(Demo)

@@ -6,29 +6,30 @@ import PropTypes from 'prop-types'
 import {List} from "./style"
 import {PagesWrapper, Title} from "../../style/common_style"
 
-import {Col, Divider, Row, Tag} from "antd"
+import {Col, Divider, Row} from "antd"
 import Modal from '../Modal'
+import Tag from '../Tag'
 
 import {scope} from "../../enum"
-
-const getTags = tags => {
-  if (tags && tags.length > 0) {
-    if (typeof tags[0] === 'object') {
-      tags = tags.map(item => item.name)
-    }
-    return tags.map(tag => <Tag key={tag} style={{margin: '0 5px', fontSize: 14}}>{tag}</Tag>)
-  }
-}
+import {actionCreators} from "../CategorySelect/store"
 
 class Page extends PureComponent {
   static propTypes = {
-    formList:PropTypes.array,
-    submit:PropTypes.func
+    formList: PropTypes.array,
+    submit: PropTypes.func
   }
+
+  componentDidMount() {
+    const {categoryList, getList} = this.props
+    if (categoryList.length === 0) {
+      getList()
+    }
+  }
+
 
   handleSubmit = form => {
     const {submit} = this.props
-    submit&&submit(form)
+    submit && submit(form)
   }
 
   getModal = type => {
@@ -54,17 +55,17 @@ class Page extends PureComponent {
   }
 
   getList = (item, type) => {
-    if (type === 'Collections') {
+    if (type === 'Collections' || type === 'Demo') {
       return (<List key={item.id}>
         <a href={item.url} target='_blank' rel='noopener noreferrer'>{item.title}</a>&nbsp;
-        {getTags([item.type])}
+        <Tag type={item.category}/>
         <p>{item.summary}</p>
       </List>)
     } else {
       return (<List key={item.id}>
         <span>{item.create_time}</span>&nbsp;&nbsp;
         <Link to={`/Detail/${type}/${item.id}`}>{item.title}</Link>&nbsp;
-        {getTags(item.category)}
+        <Tag type={item.category}/>
       </List>)
     }
   }
@@ -76,7 +77,9 @@ class Page extends PureComponent {
         <Divider/>
         <ul>
           {
-            list.map(item => this.getList(item, type))
+            list.length > 0 ?
+                list.map(item => this.getList(item, type)) :
+                <div>暂无数据...</div>
           }
         </ul>
       </PagesWrapper>
@@ -101,7 +104,14 @@ class Page extends PureComponent {
 
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
+  categoryList: state.category
 })
 
-export default connect(mapStateToProps)(Page)
+const mapDispatchToProps = dispatch => ({
+  getList() {
+    dispatch(actionCreators.getCategoryListSync())
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Page)

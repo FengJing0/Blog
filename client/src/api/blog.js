@@ -2,7 +2,7 @@ import http from './http'
 
 export const getCategoryApi = () => http('/category/all')
 
-export const addCategoryApi = type => http('/category/add','post',type)
+export const addCategoryApi = category => http('/category/add','post',category)
 
 export const getBlogApi = () => http('/blog/all')
 

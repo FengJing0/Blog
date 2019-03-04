@@ -15,14 +15,14 @@ class Collections extends BaseController
         return CollectionsModel::getAll();
     }
 
-    public function addCollections($title='',$url='',$summary='',$type=0){
+    public function addCollections($title='',$url='',$summary='',$category=0){
         (new CollectionsValidate())->goCheck();
         $collectionsModel = new CollectionsModel();
         $result = $collectionsModel->where('url','=',$url)->find();
         if($result){
            throw new CollectionsException();
         }
-        $collectionsId = $collectionsModel->saveNewCollections($title,$url,$summary,$type);
+        $collectionsId = $collectionsModel->saveNewCollections($title,$url,$summary,$category);
         if(!$collectionsId){
             throw new Exception('保存出错');
         }

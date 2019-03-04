@@ -7,6 +7,6 @@ class CollectionsValidate extends BaseValidate
     protected $rule = [
         'title' => 'require|isNotEmpty',
         'url' => 'require|isNotEmpty',
-        'type' => 'require|isPositiveInteger'
+        'category' => 'require|isPositiveInteger'
     ];
 }

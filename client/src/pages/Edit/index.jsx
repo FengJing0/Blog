@@ -11,7 +11,6 @@ import {scope} from "../../enum"
 
 class Edit extends PureComponent {
   state = {
-    categoryList: [],
     isEdit: false,
     id: null
   }
@@ -22,16 +21,6 @@ class Edit extends PureComponent {
       isEdit: !!id,
       id
     })
-  }
-
-
-  componentDidMount() {
-    blog.getCategoryApi().then(res => {
-      if (!res.errorCode) {
-        this.setState({categoryList: res})
-      }
-    })
-
   }
 
   onSubmit = ({content, category, title}) => {
@@ -61,9 +50,8 @@ class Edit extends PureComponent {
     if (this.props.userInfo.scope !== scope.Super) {
       return <Redirect to='/'/>
     } else {
-      const {categoryList,id} = this.state
-      return <EditComponent categoryList={categoryList}
-                            id={id}
+      const {id} = this.state
+      return <EditComponent id={id}
                             onSubmit={this.onSubmit}
                             onSubmitNewCategory={this.onSubmitNewCategory}/>
     }

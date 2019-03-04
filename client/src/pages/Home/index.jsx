@@ -26,13 +26,13 @@ class Home extends PureComponent {
   }
 
   getList = (type,list) => {
-    if(list.length){
+    if(list&&list.length){
       return <CardList id={type} title={type} list={list} />
     }
   }
 
   getLink = (type,list) => {
-     if(list.length){
+     if(list&&list.length){
        return <Link href={'#'+type} title={type} />
      }
   }

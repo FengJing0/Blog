@@ -5,7 +5,7 @@ namespace app\api\model;
 use think\Db;
 use think\Exception;
 
-class Collections extends BaseModel
+class Demo extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $hidden = ['create_time','delete_time','update_time','category_id'];
@@ -19,7 +19,7 @@ class Collections extends BaseModel
         return $this->hasOne('Category','id','category_id');
     }
 
-    public function saveNewCollections($title='',$url='',$summary='',$category=0){
+    public function saveNewDemo($title='',$url='',$summary='',$category=0){
         if(!$summary){
             $summary = $title;
         }

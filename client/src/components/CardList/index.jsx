@@ -13,7 +13,7 @@ const CardList = props => {
           {title&&<Title>{title}</Title>}
           {
             list.map(item=>(<a key={item.id} href={item.url} target='_blank' rel='noopener noreferrer'>
-              <Card title={item.title} gist={item.summary} type={item.type}/>
+              <Card title={item.title} gist={item.summary} type={item.category}/>
             </a>))
           }
         </PagesWrapper>
@@ -24,7 +24,7 @@ const CardList = props => {
         {title&&<Title>{title}</Title>}
         {
           list.map(item=>(<Link key={item.id} to={`/Detail/${title}/${item.id}`}>
-            <Card title={item.title} gist={item.gist} date={item.create_time}/>
+            <Card title={item.title} gist={item.gist} date={item.create_time} type={item.category}/>
           </Link>))
         }
       </PagesWrapper>

@@ -17,7 +17,7 @@ function getNavList() {
     {to: '/Archives', title: 'Archives', icon: 'document_fill'},
     {to: '/Collections', title: 'Collections', icon: 'collection_fill'},
     {to: '/Demo', title: 'Demo', icon: 'createtask_fill'},
-    {to: '/About', title: 'About', icon: 'like_fill'}
+    // {to: '/About', title: 'About', icon: 'like_fill'}
   ]
   return navList.map(item => (
       <Item key={item.to}><Link to={item.to}><Icon name={item.icon}/>{item.title}</Link></Item>

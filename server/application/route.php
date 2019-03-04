@@ -23,14 +23,31 @@ Route::post('api/:version/login','api/:version.User/login');
 
 Route::get('api/:version/category/all','api/:version.Category/getAll');
 Route::post('api/:version/category/add','api/:version.Category/addCategory');
+Route::group('api/:version/blog',function(){
+    Route::get('/all','api/:version.Blog/getAll');
+    Route::post('/add','api/:version.Blog/addBlog');
+    Route::post('/update/:id','api/:version.Blog/updateBlog',[],['id'=>'\d+']);
+    Route::get('/:id','api/:version.Blog/getBlogDetail',[],['id'=>'\d+']);
+});
 
-Route::get('api/:version/blog/all','api/:version.Blog/getAll');
-Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
-Route::post('api/:version/blog/update/:id','api/:version.Blog/updateBlog');
-Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
+//Route::get('api/:version/blog/all','api/:version.Blog/getAll');
+//Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
+//Route::post('api/:version/blog/update/:id','api/:version.Blog/updateBlog');
+//Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
 
-Route::get('api/:version/collections/all','api/:version.Collections/getAll');
-Route::post('api/:version/collections/add','api/:version.Collections/addCollections');
+Route::group('api/:version/collections',function(){
+    Route::get('/all','api/:version.Collections/getAll');
+    Route::post('/add','api/:version.Collections/addCollections');
+});
+//Route::get('api/:version/collections/all','api/:version.Collections/getAll');
+//Route::post('api/:version/collections/add','api/:version.Collections/addCollections');
+
+Route::group('api/:version/demo',function(){
+    Route::get('/all','api/:version.Demo/getAll');
+    Route::post('/add','api/:version.Demo/addDemo');
+});
+
+
 
 //Route::get('api/:version/product/:id','api/:version.Product/getOne',[],['id'=>'\d+']);
 //Route::get('api/:version/product/recent','api/:version.Product/getRecent');

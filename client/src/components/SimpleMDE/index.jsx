@@ -30,7 +30,6 @@ class MDE extends PureComponent{
       initialValue: value
     })
     this.mde.codemirror.on('change', () => {
-      console.log(this.mde.value())
       onChange(this.mde.value())
     })
   }

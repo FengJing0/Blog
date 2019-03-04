@@ -5,16 +5,16 @@ import {EditWrapper, FromWrapper} from "./style"
 
 import {CenterTitle, PagesWrapper} from "../../style/common_style"
 
-import {Button, Col, Input, Row, Select, message} from "antd"
+import {Button, Col, Input, Row, message} from "antd"
 
 import Markdown from "../Markdown"
 import SimpleMDE from "../SimpleMDE"
-import Modal from './modal'
+import CategorySelect from "../CategorySelect"
+
 import Upload from './upload'
 
 import {blog} from "../../api"
 
-const Option = Select.Option
 
 class EditComponent extends PureComponent {
   state = {
@@ -27,7 +27,6 @@ class EditComponent extends PureComponent {
   }
 
   static propTypes = {
-    categoryList: PropTypes.array.isRequired,
     onSubmitNewCategory: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     blog: PropTypes.object,
@@ -52,24 +51,10 @@ class EditComponent extends PureComponent {
     }
   }
 
-  getSelect = () => (<Select
-      value={this.state.category}
-      mode="multiple"
-      style={{minWidth: 150}}
-      placeholder="选择分类"
-      onChange={category => {
-        this.setState({category})
-      }}
-  >
-    {
-      this.props.categoryList.map(item => (<Option key={item.id}>{item.name}</Option>))
-    }
-  </Select>)
-
   getFrom = () => {
     return (<FromWrapper>
-      {this.getSelect()}
-      <Modal {...this.props}/>
+      <CategorySelect category={this.state.category}
+                      onChange={category => this.setState({category})}/>
       <Upload/>
       <Button htmlType='button' type='primary' onClick={this.handleSubmit}>提交</Button>
     </FromWrapper>)
@@ -86,7 +71,7 @@ class EditComponent extends PureComponent {
   handleSubmit = () => {
     const {content, category, title} = this.state
     if (!content) {
-      message.error('请填写博客')
+      message.error('请填写博客内容')
       return
     }
     if (!title) {

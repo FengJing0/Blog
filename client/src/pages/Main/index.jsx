@@ -29,7 +29,7 @@ class Main extends PureComponent {
               <Route exact path='/Archives' component={Archives}/>
               <Route exact path='/Collections' component={Collections}/>
               <Route exact path='/Demo' component={Demo}/>
-              <Route exact path='/About' component={About}/>
+              {/*<Route exact path='/About' component={About}/>*/}
               <Route exact path='/Edit' component={Edit}/>
               <Route exact path='/Detail/:type/:id' component={Detail}/>
               <Route exact path='*' component={NotFound}/>

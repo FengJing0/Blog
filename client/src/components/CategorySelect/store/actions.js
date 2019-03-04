@@ -1,5 +1,8 @@
-import {GET_USER_INFO_SYNC,GET_USER_INFO} from "./actions-type"
+import {GET_CATEGORY_LIST,GET_CATEGORY_LIST_SYNC,ADD_CATEGORY,ADD_CATEGORY_SYNC} from "./actions-type"
 
-export const getUserInfo = userInfo => ({type:GET_USER_INFO,data:userInfo})
+export const getCategoryList = categoryList => ({type:GET_CATEGORY_LIST,data:categoryList})
+export const getCategoryListSync = categoryList => ({type:GET_CATEGORY_LIST_SYNC,data:categoryList})
 
-export const getUserInfoSync = user => ({type:GET_USER_INFO_SYNC,data:user})
+export const addCategory= category => ({type:ADD_CATEGORY,data:category})
+export const addCategorySync = category => ({type:ADD_CATEGORY_SYNC,data:category})
+

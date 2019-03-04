@@ -20,7 +20,7 @@ class Modal extends PureComponent {
   }
 
   handleClose = () => {
-    const {close,form} = this.props
+    const {close, form} = this.props
     close && close()
     form.resetFields()
   }
@@ -32,26 +32,34 @@ class Modal extends PureComponent {
   }
 
   handleSubmit = () => {
-    this.setState({visible: false})
-    this.props.submit(this.props.form.getFieldsValue())
+    const {form,submit} = this.props
+    form.validateFields(
+        err => {
+          if (!err) {
+            submit(form.getFieldsValue())
+            this.setState({visible: false})
+          }
+        },
+    )
   }
 
   defaultFormItem = (item) => {
-    if(item.type==='select'){
+    const itemWidth = 350
+    if (item.type === 'select') {
       return (<Select
-          style={{width: 400}}
+          style={{width: itemWidth}}
           placeholder={item.placeholder}>
         {
           item.list.map(item => (<Option key={item.id}>{item.name}</Option>))
         }
       </Select>)
     }
-    return <Input placeholder={item.placeholder} style={{width:400}}/>
+    return <Input placeholder={item.placeholder} style={{width: itemWidth}}/>
   }
 
   getModel = () => {
     const {visible} = this.state
-    const {title, children, form,formList} = this.props
+    const {title, children, form, formList} = this.props
     const {getFieldDecorator} = form
 
     return (<AntModal
@@ -64,9 +72,11 @@ class Modal extends PureComponent {
         cancelText="取消">
       <Form>
         {
-          formList.map(item => (<Item key={item.key} label={item.label} required labelCol={{span:3}}>
+          formList.map(item => (<Item key={item.key} label={item.label} labelCol={{span: 4}}>
             {
-              getFieldDecorator(item.key)(item.component ? item.component() : this.defaultFormItem(item))
+              getFieldDecorator(item.key, {
+                rules: [{required: true}]
+              })(item.component ? item.component() : this.defaultFormItem(item))
             }
           </Item>))
         }

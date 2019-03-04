@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const Title = styled('p')`
+export const Title = styled('div')`
   font-size:28px;
   font-weight:bold;
   color:${props => props.theme.titleColor}
@@ -19,10 +19,4 @@ export const Gist = styled('p')`
 export const Date = styled('p')`
   font-size:14px;
   margin:0;
-`
-
-export const Type = styled('span')`
-  font-size:14px;
-  color:${p=>p.theme.subFont}
-  font-weight:normal;
 `

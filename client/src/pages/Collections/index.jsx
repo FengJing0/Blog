@@ -1,10 +1,15 @@
-import React,{PureComponent} from 'react'
-import {collections,blog} from "../../api"
+import React, {PureComponent} from 'react'
+import {collections} from "../../api"
 import Page from "../../components/Page"
+import {connect} from "react-redux"
+import CategorySelect from "../../components/CategorySelect"
 
-class Collections extends PureComponent{
+import {Calendar, message} from "antd"
+
+
+class Collections extends PureComponent {
   state = {
-    list:[],
+    list: [],
     formList: [
       {
         label: '标题',
@@ -23,34 +28,50 @@ class Collections extends PureComponent{
       },
       {
         label: '分类',
-        key: 'type',
-        type: 'select',
-        list:[]
+        key: 'category',
+        component: () => <CategorySelect defaultMode={true} width={250}/>
       }
     ]
   }
 
   componentDidMount() {
-    collections.getCollectionsApi().then(res=>{
-      this.setState({list:res.data})
-    })
-    blog.getCategoryApi().then(res=>{
-      this.setState((state) => {
-        let formList = state.formList
-        formList[3].list = res
-        return {formList}
-      })
+    this.getData()
+  }
+
+  static getDerivedStateFromProps(nextProps, nextState) {
+    if (nextProps.categoryList !== nextState.formList[3].list) {
+      let formList = nextState.formList
+      formList[3].list = nextProps.categoryList
+      return {formList}
+    }
+    return null
+  }
+
+  getData = () => {
+    collections.getCollectionsApi().then(res => {
+      this.setState({list: res.data})
     })
   }
 
   handleSubmit = from => {
-    console.log(from)
+    collections.addCollectionsApi(from).then(res=>{
+      if(!res.errorCode){
+        this.getData()
+        message.success('添加成功！')
+      }
+    })
   }
 
   render() {
-    const {list,formList} = this.state
-    return <Page type='Collections' list={list} formList={formList} submit={this.handleSubmit}/>
-  }
+    const {list, formList} = this.state
+    return <Page type='Collections' list={list} formList={formList} submit={this.handleSubmit}>
+      <Calendar fullscreen={false}/>
+    </Page>
+      }
 }
 
-export default Collections
+const mapStateToProps = state => ({
+  categoryList: state.category
+})
+
+export default connect(mapStateToProps)(Collections)

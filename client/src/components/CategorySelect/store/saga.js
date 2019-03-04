@@ -1,19 +1,32 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {GET_USER_INFO_SYNC} from "./actions-type"
+import {GET_CATEGORY_LIST_SYNC,ADD_CATEGORY_SYNC} from "./actions-type"
 
-import {getUserInfo as getUserInfoAction} from "./actions"
+import {getCategoryList as getCategoryListAction,addCategory as addCategoryAction} from "./actions"
 
-import {user} from "../../../api"
+import {blog} from "../../../api"
 
-function* getUserInfo(values) {
+function* getCategoryList() {
   try {
-    const res = yield user.loginApi(values.data)
+    const res = yield blog.getCategoryApi()
     if (!res.errorCode) {
-      yield put(getUserInfoAction(res))
+      yield put(getCategoryListAction(res))
     }
   } catch (e) {
-    console.log('登录失败：' + e)
+    console.log('获取列表失败：' + e)
   }
 }
 
-export const userSaga = () => takeEvery(GET_USER_INFO_SYNC, getUserInfo)
+function* addCategory(category) {
+  try {
+    const res = yield blog.addCategoryApi({name: category.data})
+    if (!res.errorCode) {
+      yield put(addCategoryAction(res))
+    }
+  } catch (e) {
+    console.log('新增失败：' + e)
+  }
+}
+
+export const getCategoryListSaga = () => takeEvery(GET_CATEGORY_LIST_SYNC, getCategoryList)
+
+export const addCategorySaga = () => takeEvery(ADD_CATEGORY_SYNC, addCategory)

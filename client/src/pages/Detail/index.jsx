@@ -16,9 +16,9 @@ import Icon from "../../components/Icon"
 class Detail extends PureComponent {
   state = {
     content: '',
-    title:'test',
-    date:'11日',
-    tags:['js','it'],
+    title:'',
+    date:'',
+    tags:[],
     author:''
   }
 

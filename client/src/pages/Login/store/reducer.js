@@ -3,10 +3,10 @@ import {scope} from "../../../enum"
 
 
 const initUserInfo = {
-  id:23,
-  username:'11',
-  nickname:'11',
-  scope:scope.Super
+  // id:23,
+  // username:'11',
+  // nickname:'11',
+  // scope:scope.Super
 }
 
 export default  (state=initUserInfo,action) => {

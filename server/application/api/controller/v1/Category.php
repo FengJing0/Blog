@@ -9,6 +9,10 @@ use app\lib\exception\CategoryException;
 
 class Category extends BaseController
 {
+    protected $beforeActionList = [
+        'checkRootScope' => ['only'=>'addcategory'],
+    ];
+
     public function getAll(){
         $types = CategoryModel::all();
         if($types->isEmpty()){

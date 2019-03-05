@@ -11,6 +11,10 @@ use think\Exception;
 
 class Collections extends BaseController
 {
+    protected $beforeActionList = [
+        'checkRootScope' => ['only'=>'addCollections'],
+    ];
+
     public function getAll(){
         return CollectionsModel::getAll();
     }

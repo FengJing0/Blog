@@ -9,6 +9,8 @@ function* getUserInfo(values) {
   try {
     const res = yield user.loginApi(values.data)
     if (!res.errorCode) {
+      console.log(res)
+      sessionStorage.setItem('T',res.token)
       yield put(getUserInfoAction(res))
     }
   } catch (e) {

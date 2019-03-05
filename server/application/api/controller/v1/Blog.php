@@ -13,6 +13,10 @@ use think\Exception;
 
 class Blog
 {
+    protected $beforeActionList = [
+        'checkRootScope' => ['only'=>'addBlog,updateBlog'],
+    ];
+
     public function getAll(){
         $blogs = BlogModel::getBlogByPage();
         if($blogs->isEmpty()){

@@ -7,6 +7,10 @@ use app\api\controller\BaseController;
 
 class Upload extends BaseController
 {
+    protected $beforeActionList = [
+        'checkRootScope' => ['only'=>'index'],
+    ];
+
     public function index(){
 
         $file = request()->file("img");

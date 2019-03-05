@@ -11,6 +11,10 @@ use app\lib\exception\SuccessMessage;
 use think\Exception;
 class Demo extends BaseController
 {
+    protected $beforeActionList = [
+        'checkRootScope' => ['only'=>'addDemo'],
+    ];
+
     public function getAll(){
         return DemoModel::getAll();
     }

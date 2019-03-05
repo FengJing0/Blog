@@ -1,5 +1,6 @@
 import {put, takeEvery} from 'redux-saga/effects'
 import {GET_CATEGORY_LIST_SYNC,ADD_CATEGORY_SYNC} from "./actions-type"
+import {message} from "antd"
 
 import {getCategoryList as getCategoryListAction,addCategory as addCategoryAction} from "./actions"
 
@@ -20,6 +21,7 @@ function* addCategory(category) {
   try {
     const res = yield blog.addCategoryApi({name: category.data})
     if (!res.errorCode) {
+      message.success('添加成功')
       yield put(addCategoryAction(res))
     }
   } catch (e) {

@@ -20,9 +20,11 @@ Route::post('api/:version/upload','api/:version.Upload/index');
 Route::post('api/:version/register','api/:version.User/register');
 Route::post('api/:version/login','api/:version.User/login');
 
+Route::group('api/:version/category',function(){
+    Route::get('/all','api/:version.Category/getAll');
+    Route::post('/add','api/:version.Category/addCategory');
+});
 
-Route::get('api/:version/category/all','api/:version.Category/getAll');
-Route::post('api/:version/category/add','api/:version.Category/addCategory');
 Route::group('api/:version/blog',function(){
     Route::get('/all','api/:version.Blog/getAll');
     Route::post('/add','api/:version.Blog/addBlog');
@@ -30,17 +32,11 @@ Route::group('api/:version/blog',function(){
     Route::get('/:id','api/:version.Blog/getBlogDetail',[],['id'=>'\d+']);
 });
 
-//Route::get('api/:version/blog/all','api/:version.Blog/getAll');
-//Route::post('api/:version/blog/add','api/:version.Blog/addBlog');
-//Route::post('api/:version/blog/update/:id','api/:version.Blog/updateBlog');
-//Route::get('api/:version/blog/:id','api/:version.Blog/getBlogDetail');
 
 Route::group('api/:version/collections',function(){
     Route::get('/all','api/:version.Collections/getAll');
     Route::post('/add','api/:version.Collections/addCollections');
 });
-//Route::get('api/:version/collections/all','api/:version.Collections/getAll');
-//Route::post('api/:version/collections/add','api/:version.Collections/addCollections');
 
 Route::group('api/:version/demo',function(){
     Route::get('/all','api/:version.Demo/getAll');

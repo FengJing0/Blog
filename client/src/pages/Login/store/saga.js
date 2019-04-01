@@ -5,11 +5,26 @@ import {getUserInfo as getUserInfoAction, verifyToken} from "./actions"
 
 import {user} from "../../../api"
 
+function normalize(res) {
+    if(typeof res === 'string'){
+        res = JSON.parse(res)
+    }
+    const {id,scope} = res
+    if(id){
+        res.id = +id;
+    }
+    if(scope){
+        res.scope = +scope;
+    }
+    return res
+}
+
 function* getUserInfo(values) {
     try {
-        const res = yield user.loginApi(values.data)
+        let res = yield user.loginApi(values.data)
         if (!res.errorCode) {
             // console.log(res)
+            res = normalize(res)
             sessionStorage.setItem('T', res.token)
             yield put(getUserInfoAction(res))
         }
@@ -22,7 +37,7 @@ function* verify(values) {
     try {
         let res = yield user.verifyApi(values.data)
         if (!res.errorCode) {
-            res = JSON.parse(res.isValid)
+            res = normalize(res.isValid)
             if (res) {
                 yield put(verifyToken(res))
             }else{

@@ -23,7 +23,7 @@ class AppToken extends Token
             $username = $app->username;
             $values = [
                 'scope' => $scope,
-                'id' => $uid,
+                'uid' => $uid,
                 'username' => $username
             ];
             $token = $this->saveToCache($values);

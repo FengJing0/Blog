@@ -9,9 +9,10 @@ function normalize(res) {
     if(typeof res === 'string'){
         res = JSON.parse(res)
     }
-    const {id,scope} = res
-    if(id){
-        res.id = +id;
+    const {uid,scope} = res
+    if(uid){
+        res.id = +uid;
+        delete res.uid
     }
     if(scope){
         res.scope = +scope;

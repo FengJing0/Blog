@@ -11,6 +11,7 @@ export default class Upload extends PureComponent{
     name: 'img',
     action: BaseUrl + '/upload',
     headers: {
+      token:sessionStorage.getItem('T'),
       authorization: 'authorization-text',
     },
   }

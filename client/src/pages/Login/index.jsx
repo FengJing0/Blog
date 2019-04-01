@@ -25,6 +25,14 @@ class Login extends PureComponent {
     this.props.login(value)
   }
 
+  componentDidMount() {
+    const token  = sessionStorage.getItem('T')
+    if(token){
+      sessionStorage.removeItem('T')
+    }
+  }
+
+
   componentWillReceiveProps(nextProps, nextContext) {
     if (nextProps.userInfo.id) {
       nextProps.history.push('/')

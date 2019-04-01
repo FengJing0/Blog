@@ -19,6 +19,7 @@ Route::post('api/:version/upload','api/:version.Upload/index');
 
 Route::post('api/:version/register','api/:version.User/register');
 Route::post('api/:version/login','api/:version.User/login');
+Route::post('api/:version/verify','api/:version.User/verifyToken');
 
 Route::group('api/:version/category',function(){
     Route::get('/all','api/:version.Category/getAll');

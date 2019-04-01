@@ -1,6 +1,9 @@
 import React, {PureComponent} from 'react'
 import {Switch, Route} from "react-router-dom"
 import { BackTop } from 'antd';
+import {connect} from "react-redux";
+
+import {actionCreators} from "../Login/store"
 
 import NotFound from '../../components/NotFound'
 import Home from "../Home"
@@ -17,7 +20,16 @@ import {PagesWrapper} from "./style"
 
 
 class Main extends PureComponent {
-  render() {
+    componentDidMount() {
+        const token = sessionStorage.getItem('T')
+        const {userInfo,verify} = this.props
+        if(token&&!userInfo.id){
+            verify(token)
+        }
+    }
+
+
+    render() {
     return (
         <React.Fragment>
           <Header/>
@@ -40,4 +52,14 @@ class Main extends PureComponent {
   }
 }
 
-export default Main
+const mapStateToProps = state => ({
+    userInfo:state.userInfo
+})
+
+const mapDispatchToProps = dispatch => ({
+    verify(token){
+        dispatch(actionCreators.verifyTokenSync(token))
+    }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Main)

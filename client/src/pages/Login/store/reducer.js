@@ -1,5 +1,5 @@
 import * as actionsType from './actions-type'
-import {scope} from "../../../enum"
+// import {scope} from "../../../enum"
 
 
 const initUserInfo = {
@@ -12,6 +12,8 @@ const initUserInfo = {
 export default  (state=initUserInfo,action) => {
   switch (action.type) {
     case actionsType.GET_USER_INFO:
+      return action.data
+    case actionsType.VERIFY_TOKEN:
       return action.data
     default:
       return state

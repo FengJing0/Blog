@@ -53,6 +53,7 @@ class User extends BaseController
             ]);
         }
         $valid = TokenService::verifyToken($token);
+        $valid = $valid?$valid:false;
         return [
             'isValid' => $valid
         ];

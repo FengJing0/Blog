@@ -52,7 +52,7 @@ class Home extends PureComponent {
           {this.getLink('Blog',this.state.BlogList)}
           {this.getLink('Archives',this.state.ArchivesList)}
           {this.getLink('Collections',this.state.CollectionsList)}
-        </Anchor>,
+        </Anchor>
     </Col>)
   }
 

@@ -93,6 +93,6 @@ class Token
 
     public static function verifyToken($token){
         $exist = Cache::get($token);
-        return $exist ? true : false;
+        return $exist;
     }
 }

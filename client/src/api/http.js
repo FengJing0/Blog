@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {message} from "antd"
 
-// const BaseHost = 'http://api.tusix.cn'
-const BaseHost = 'http://b.cn'
+const BaseHost = 'http://api.tusix.cn'
+// const BaseHost = 'http://b.cn'
 
 export const BaseUrl = BaseHost + '/api/v1'
 export const BaseUploadImgPath = BaseHost + '/uploads'
